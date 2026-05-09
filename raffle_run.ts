@@ -16,7 +16,9 @@ export class RaffleRun {
     while (this.candidates.length > 0) {
       const index = Math.floor(Math.random() * this.candidates.length);
       const randomCandidate = this.candidates[index];
-      shuffledCandidates.push(randomCandidate);
+      if (!shuffledCandidates.includes(randomCandidate)) {
+        shuffledCandidates.push(randomCandidate);
+      }
       this.candidates.splice(index, 1);
     }
     return shuffledCandidates;
@@ -29,7 +31,7 @@ export class RaffleRun {
       const winner = shuffledCandidates.shift()!;
       priceByWinner.set(winner, price.name);
       if (price.units > 1) {
-        this.prices.push(new Price(price.name, price.units-1));
+        this.prices.push(new Price(price.name, price.units - 1));
       }
     }
     return priceByWinner;

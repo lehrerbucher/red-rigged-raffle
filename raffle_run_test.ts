@@ -41,6 +41,16 @@ Deno.test("test multiple prices are assigned to different candidates", () => {
     "@Erica",
     "@Freddy",
     "@Georgina",
+    "@Alice",
+    "@Alice",
+    "@Alice",
+    "@Alice",
+    "@Alice",
+    "@Alice",
+    "@Alice",
+    "@Alice",
+    "@Alice",
+    "@Alice",
   ];
   const prices = [
     new Price("iPhone", 3),
