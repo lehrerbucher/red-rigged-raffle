@@ -1,5 +1,4 @@
 import { Raffle } from "./raffle.ts";
-import { Price } from "./price.ts";
 
 const candidates = [
   "@Gangsta2007",
@@ -52,15 +51,15 @@ const candidates = [
   "@PrinzPuma",
   "@PrinzPuma",
 ];
-const prices = [
-  new Price("iPhone 17 Pro", 1),
-  new Price("Trip nach Dubi", 1),
-  new Price("Stepper nach Isti", 1),
-  new Price("Flug nach Zypi", 1),
-  new Price("10 kg Haribo", 2),
-  new Price("PlayStation 5 Slim", 3),
-  new Price("gebrauchte Sneaker", 5),
-];
+const prices = new Map<string, number>([
+  ["iPhone 17 Pro", 1],
+  ["Trip nach Dubi", 1],
+  ["Stepper nach Isti", 1],
+  ["Flug nach Zypi", 1],
+  ["10 kg Haribo", 2],
+  ["PlayStation 5 Slim", 3],
+  ["gebrauchte Sneaker", 5],
+]);
 const winners = new Raffle(candidates, prices).run();
 for (const [winner, price] of winners.entries()) {
   console.log(`${winner} gewinnt ${price}`);

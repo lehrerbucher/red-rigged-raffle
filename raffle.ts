@@ -3,7 +3,7 @@ import { Price } from "./price.ts";
 export class Raffle {
   constructor(
     private candidates: string[],
-    private prices: Price[],
+    private prices: Map<string, number>,
   ) {}
 
   public run(): Map<string, string> {
@@ -26,12 +26,17 @@ export class Raffle {
 
   private assignPrices(shuffledCandidates: Array<string>): Map<string, string> {
     const priceByWinner = new Map<string, string>();
-    while (this.prices.length > 0 && shuffledCandidates.length > 0) {
-      const price = this.prices.shift()!;
+    while (this.prices.size > 0 && shuffledCandidates.length > 0) {
+      const priceNames = [...this.prices.keys()];
+      const priceIndex = Math.floor(Math.random() * priceNames.length);
+      const priceName = priceNames[priceIndex];
+      const priceRemaining = this.prices.get(priceName)!;
       const winner = shuffledCandidates.shift()!;
-      priceByWinner.set(winner, price.name);
-      if (price.units > 1) {
-        this.prices.push(new Price(price.name, price.units - 1));
+      priceByWinner.set(winner, priceName);
+      if (priceRemaining > 1) {
+        this.prices.set(priceName, priceRemaining - 1);
+      } else {
+        this.prices.delete(priceName);
       }
     }
     return priceByWinner;
