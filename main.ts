@@ -66,7 +66,7 @@ export class Raffle {
     const winners = new RaffleRun(
       candidates,
       prices,
-    ).assignPrices();
+    ).run();
     for (const [winner, price] of winners.entries()) {
       console.log(`${winner} gewinnt ${price}`);
     }

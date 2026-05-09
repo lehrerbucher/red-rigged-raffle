@@ -6,8 +6,12 @@ export class RaffleRun {
     private prices: Price[],
   ) {}
 
-  public assignPrices(): Map<string, string> {
-    const priceByWinner = new Map<string, string>();
+  public run(): Map<string, string> {
+    const shuffledCandidates = this.shuffleCandidates();
+    return this.assignPrices(shuffledCandidates);
+  }
+
+  private shuffleCandidates(): Array<string> {
     const shuffledCandidates = new Array<string>();
     while (this.candidates.length > 0) {
       const index = Math.floor(Math.random() * this.candidates.length);
@@ -15,6 +19,11 @@ export class RaffleRun {
       shuffledCandidates.push(randomCandidate);
       this.candidates.pop();
     }
+    return shuffledCandidates;
+  }
+
+  private assignPrices(shuffledCandidates: Array<string>): Map<string, string> {
+    const priceByWinner = new Map<string, string>();
     while (this.prices.length > 0 && shuffledCandidates.length > 0) {
       const price = this.prices[0];
       const winner = shuffledCandidates.shift() || "";
