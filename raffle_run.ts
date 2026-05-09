@@ -17,7 +17,7 @@ export class RaffleRun {
       const index = Math.floor(Math.random() * this.candidates.length);
       const randomCandidate = this.candidates[index];
       shuffledCandidates.push(randomCandidate);
-      this.candidates.pop();
+      this.candidates.splice(index, 1);
     }
     return shuffledCandidates;
   }
@@ -25,13 +25,11 @@ export class RaffleRun {
   private assignPrices(shuffledCandidates: Array<string>): Map<string, string> {
     const priceByWinner = new Map<string, string>();
     while (this.prices.length > 0 && shuffledCandidates.length > 0) {
-      const price = this.prices[0];
-      const winner = shuffledCandidates.shift() || "";
+      const price = this.prices.shift()!;
+      const winner = shuffledCandidates.shift()!;
       priceByWinner.set(winner, price.name);
-      if (price.units > 0) {
-        this.prices.shift();
-      } else {
-        this.prices[0].units--;
+      if (price.units > 1) {
+        this.prices.push(new Price(price.name, price.units-1));
       }
     }
     return priceByWinner;
