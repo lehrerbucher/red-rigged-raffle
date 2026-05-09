@@ -1,6 +1,6 @@
 import { assert, assertEquals, assertNotEquals } from "@std/assert";
 import { Price } from "./price.ts";
-import { RaffleRun } from "./raffle_run.ts";
+import { Raffle } from "./raffle.ts";
 
 Deno.test("the single price is assigned to the candidate", () => {
   // Arrange
@@ -8,7 +8,7 @@ Deno.test("the single price is assigned to the candidate", () => {
   const prices = [new Price("iPhone", 1)];
 
   // Act
-  const winners = new RaffleRun(candidates, prices).run();
+  const winners = new Raffle(candidates, prices).run();
 
   // Assert
   assertEquals(winners.get("@Alice"), "iPhone");
@@ -20,7 +20,7 @@ Deno.test("the two prices are assigned to the candidates", () => {
   const prices = [new Price("iPhone", 1), new Price("Shoes", 1)];
 
   // Act
-  const winners = new RaffleRun(candidates, prices).run();
+  const winners = new Raffle(candidates, prices).run();
 
   // Assert
   assertEquals(winners.size, 2);
@@ -59,7 +59,7 @@ Deno.test("test multiple prices are assigned to different candidates", () => {
   ];
 
   // Act
-  const winners = new RaffleRun(candidates, prices).run();
+  const winners = new Raffle(candidates, prices).run();
 
   // Assert
   assertEquals(winners.size, 6);

@@ -1,6 +1,6 @@
 import { Price } from "./price.ts";
 
-export class RaffleRun {
+export class Raffle {
   constructor(
     private candidates: string[],
     private prices: Price[],
