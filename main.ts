@@ -1,4 +1,4 @@
-import { Raffle } from "./raffle.ts";
+import { raffle } from "./raffle.ts";
 
 const candidates = [
   "@Gangsta2007",
@@ -60,7 +60,7 @@ const prices = new Map<string, number>([
   ["PlayStation 5 Slim", 3],
   ["gebrauchte Sneaker", 5],
 ]);
-const winners = new Raffle(candidates, prices).run();
+const winners = raffle(candidates, prices);
 for (const [winner, price] of winners.entries()) {
   console.log(`${winner} gewinnt ${price}`);
 }

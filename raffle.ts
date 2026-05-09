@@ -1,44 +1,46 @@
-import { Price } from "./price.ts";
+export function raffle(
+  candidates: Array<string>,
+  prices: Map<string, number>,
+): Map<string, string> {
+  const shuffled = shuffle(candidates);
+  return assignPrices(shuffled, prices);
+}
 
-export class Raffle {
-  constructor(
-    private candidates: string[],
-    private prices: Map<string, number>,
-  ) {}
-
-  public run(): Map<string, string> {
-    const shuffledCandidates = this.shuffleCandidates();
-    return this.assignPrices(shuffledCandidates);
-  }
-
-  private shuffleCandidates(): Array<string> {
-    const shuffledCandidates = new Array<string>();
-    while (this.candidates.length > 0) {
-      const index = Math.floor(Math.random() * this.candidates.length);
-      const randomCandidate = this.candidates[index];
-      if (!shuffledCandidates.includes(randomCandidate)) {
-        shuffledCandidates.push(randomCandidate);
-      }
-      this.candidates.splice(index, 1);
+function shuffle(originalItems: Array<string>): Array<string> {
+  const shuffled = new Array<string>();
+  const items = [...originalItems];
+  while (items.length > 0) {
+    const index = Math.floor(Math.random() * items.length);
+    const randomItem = items[index];
+    if (!shuffled.includes(randomItem)) {
+      shuffled.push(randomItem);
     }
-    return shuffledCandidates;
+    items.splice(index, 1);
   }
+  return shuffled;
+}
 
-  private assignPrices(shuffledCandidates: Array<string>): Map<string, string> {
-    const priceByWinner = new Map<string, string>();
-    while (this.prices.size > 0 && shuffledCandidates.length > 0) {
-      const priceNames = [...this.prices.keys()];
-      const priceIndex = Math.floor(Math.random() * priceNames.length);
-      const priceName = priceNames[priceIndex];
-      const priceRemaining = this.prices.get(priceName)!;
-      const winner = shuffledCandidates.shift()!;
-      priceByWinner.set(winner, priceName);
-      if (priceRemaining > 1) {
-        this.prices.set(priceName, priceRemaining - 1);
-      } else {
-        this.prices.delete(priceName);
-      }
-    }
-    return priceByWinner;
+function assignPrices(
+  shuffledCandidates: Array<string>,
+  originalPrices: Map<string, number>,
+): Map<string, string> {
+  const prices = new Map<string, number>();
+  for (const [name, n] of originalPrices) {
+    prices.set(name, n);
   }
+  const priceByWinner = new Map<string, string>();
+  while (prices.size > 0 && shuffledCandidates.length > 0) {
+    const priceNames = [...prices.keys()];
+    const priceIndex = Math.floor(Math.random() * priceNames.length);
+    const priceName = priceNames[priceIndex];
+    const priceRemaining = prices.get(priceName)!;
+    const winner = shuffledCandidates.shift()!;
+    priceByWinner.set(winner, priceName);
+    if (priceRemaining > 1) {
+      prices.set(priceName, priceRemaining - 1);
+    } else {
+      prices.delete(priceName);
+    }
+  }
+  return priceByWinner;
 }
